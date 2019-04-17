@@ -40,6 +40,10 @@ const int pingPin20 = 30; // Trigger Pin of Ultrasonic Sensor中间
 const int echoPin21 = 31; // Echo Pin of Ultrasonic Sensor
 const int pingPin3 = 24; // Trigger Pin of Ultrasonic Sensor中间
 const int echoPin3 = 22; // Echo Pin of Ultrasonic Sensor
+const int pingPin4 = 25; // Trigger Pin of Ultrasonic Sensor中间
+const int echoPin4 = 26; // Echo Pin of Ultrasonic Sensor
+const int pingPin5 = 27; // Trigger Pin of Ultrasonic Sensor中间
+const int echoPin5 = 28; // Echo Pin of Ultrasonic Sensor
 
 //Ledpins to detect collision place
 int LEDPin1 = 51;
