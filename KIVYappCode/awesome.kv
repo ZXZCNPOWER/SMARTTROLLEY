@@ -1,0 +1,74 @@
+<JackMeWidget>
+    Screen:
+        name:'Menu'
+        Image:
+            source: 'blue.jpg'
+            size: root.size
+            keep_ratio: False
+            allow_stretch: True
+
+
+        FloatLayout:
+            size_hint: 1, 0.6
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: 1.0, 0.2
+                
+            Button:
+                id:Follow
+                text: 'Follow me'
+                font_size: 24
+  
+                
+            Button:
+                id:Map
+                text:'Map'
+                font_size:24
+                on_press: root.current = 'Map'
+
+            Button:
+                id:Value
+                text:'StartCV'
+                font_size:24
+                on_press: root.start_CV()
+                on_press: root.current = 'FollowMe'
+             
+    Screen:
+        name:'FollowMe'  
+        Image:
+            source: 'blue.jpg'
+            size: root.size
+            keep_ratio: False
+            allow_stretch: True
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: 1.0, 0.2
+   
+            Button:
+                id:Follow
+                text: 'Menu'
+                font_size: 24
+                on_press: root.current = 'Menu'
+                on_press: root.stop_CV()
+
+
+    Screen:
+        name:'Map'
+        Image:
+            source: 'map.jpg'
+            size: root.size
+            keep_ratio: False
+            allow_stretch: True
+            
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: 1.0, 0.2
+                
+            Button:
+                id:Follow
+                text: 'Menu'
+                font_size: 24
+                on_press: root.current = 'Menu'
+    
