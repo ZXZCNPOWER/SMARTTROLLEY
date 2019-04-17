@@ -65,7 +65,4 @@ void autoMotor(){ //this function includes controlling the motor by buttons.
   }
   }
 
-void inputMotor()
-{
-  
-}
+
