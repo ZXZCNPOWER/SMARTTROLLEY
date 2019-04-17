@@ -19,7 +19,7 @@ int rght = 5;
 //motor pins
 int rm = 5;
 int lm = 3;
-int i = 1 ; //for the motor go straight
+//int i = 1 ; //for the motor go straight
 
 char junk;   //for bluetooth control
 String inputString="";
