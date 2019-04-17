@@ -34,7 +34,7 @@ void loop()
   {
     Serial.println(i);
     if (i==1){
-    analogWrite(pwmPin1,180);
+    analogWrite(pwmPin1,180); // THE VALUE HERE IS ACCORDING TO THE WEIGHT 
     analogWrite(pwmPin2,160);
     delay(600);
     i=i+1;
