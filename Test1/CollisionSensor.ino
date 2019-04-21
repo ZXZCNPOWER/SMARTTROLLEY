@@ -71,14 +71,13 @@ void readColSensor(){
    if ((20 <cmL && cmL < 300) || (20 <cmR && cmR< 300) || (20<cm && cm < 300) || (20<cma && cma < 300) || (20<cmb && cmb < 300)){
 
     digitalWrite(LEDPin1, LOW);
-    digitalWrite(LEDPin2, LOW);
-    digitalWrite(LEDPin3, HIGH);
+    digitalWrite(LEDPin2, HIGH);
+
     op = 0; //stop
    }else{
 
     digitalWrite(LEDPin1, HIGH);
-    digitalWrite(LEDPin2, HIGH);
-    digitalWrite(LEDPin3, LOW);
+    digitalWrite(LEDPin2, LOW);
     op = 1 ;// moving
    }
    delay(10);
