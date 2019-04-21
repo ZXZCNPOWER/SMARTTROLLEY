@@ -1,22 +1,30 @@
-#include <Wire.h> //这个是可以工作的 距离也可以
 
-#define VL53L0X_REG_IDENTIFICATION_MODEL_ID         0xc0
-#define VL53L0X_REG_IDENTIFICATION_REVISION_ID      0xc2
-#define VL53L0X_REG_PRE_RANGE_CONFIG_VCSEL_PERIOD   0x50
-#define VL53L0X_REG_FINAL_RANGE_CONFIG_VCSEL_PERIOD 0x70
-#define VL53L0X_REG_SYSRANGE_START                  0x00
-#define VL53L0X_REG_RESULT_INTERRUPT_STATUS         0x13
-#define VL53L0X_REG_RESULT_RANGE_STATUS             0x14
-#define address 0x29
+#include <Wire.h>
+#include <VL53L0X.h>
 
+VL53L0X sensor;
 
 int enA = 9;
 int in1 = 8;
 int in2 = 7;
  
-void setup() {
-  // put your setup code here, to run once:
-  Serial.begin(9600);  // start serial for output
+int initial = 0;
+
+
+void setup()
+{
+  Serial.begin(9600);
+  Wire.begin();
+
+  sensor.init();
+  sensor.setTimeout(500);
+
+  // Start continuous back-to-back mode (take readings as
+  // fast as possible).  To use continuous timed mode
+  // instead, provide a desired inter-measurement period in
+  // ms (e.g. sensor.startContinuous(100)).
+  sensor.startContinuous();
+
 //  Serial.println("VLX53LOX test started.");
   pinMode(enA, OUTPUT);
   pinMode(in1, OUTPUT);
@@ -24,67 +32,36 @@ void setup() {
 }
 
 
-void demoOne()
- 
-{
- 
-  // This function will run the motors in both directions at a fixed speed
- 
-  // Turn on motor A
-
-  digitalWrite(in1, HIGH); //等下加上condition，从laser的那边读数
-  digitalWrite(in2, LOW);
- 
-  // Set speed to 200 out of possible range 0~255
- 
-  analogWrite(enA, 200);
- 
-
- 
-  // Now change motor directions
- 
-  digitalWrite(in1, LOW);
-  digitalWrite(in2, HIGH);  
-
- 
-  delay(2000);
- 
-  // Now turn off motors
- 
-  digitalWrite(in1, LOW);
-  digitalWrite(in2, LOW);  
-
- 
-}
  
 void loop()
  
 {
   int dist = 0;
-  digitalWrite(in1, HIGH); //等下加上condition，从laser的那边读数
-  digitalWrite(in2, LOW);
- 
-  // Set speed to 200 out of possible range 0~255
- 
-  analogWrite(enA, 200);
-  delay(1000);
+
+
   lasersensor();
   
-  if (dist > 100 ){
+  if (dist < 100 ){   //being blocked
 
-    digitalWrite(in1, HIGH); //等下加上condition，从laser的那边读数
+    initial = initial + 1; //如果最开始就已经比车高了， 那stage就是1 
+    digitalWrite(in1, HIGH); //UP 
     digitalWrite(in2, LOW);
-    analogWrite(enA, 50);
-    delay(200);
-    digitalWrite(in1, LOW); //等下加上condition，从laser的那边读数
-    digitalWrite(in2, LOW);
-    analogWrite(enA,0);
+    delay(100);
+
  
     
-  }else{
-    digitalWrite(in1, HIGH); //等下加上condition，从laser的那边读数
-    digitalWrite(in2, LOW);
-    analogWrite(enA, 50);
+  }else if (dist > 100) {
+    initial = initial; // 如果最开始没有车高，那么stage就是0
+    if (initial == 0 ) {
+      digitalWrite(in1, HIGH);
+      digitalWrite(in1, LOW);
+      delay(100);
+    }else{
+
+     digitalWrite(in1, LOW); //说明已经经过了车后保险杠， 再遇到空就停下了
+     digitalWrite(in2, LOW);
+    }
+
     
   }
 
