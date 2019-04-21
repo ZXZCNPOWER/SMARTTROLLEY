@@ -60,7 +60,13 @@ void loop()
 
      digitalWrite(in1, LOW); //说明已经经过了车后保险杠， 再遇到空就停下了
      digitalWrite(in2, LOW);
+     delay(100);
     }
+   
+  if ( i > 500 ) {   //I DNT KNOW HOW TO MAKE THIS STOP ....HELP (CAN ADD BUZZER ON)
+    digitalWrite(in1,LOW);
+    digitalWrite(in2,LOW); 
+    delay(5000);
 
     
   }
