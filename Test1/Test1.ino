@@ -48,7 +48,9 @@ const int echoPin5 = 44; // Echo Pin of Ultrasonic Sensor
 //Ledpins to detect collision place
 int LEDPin1 = 31;
 int LEDPin2 = 33;
-int LEDPin3 = 35;
+
+
+int LEDPin3 = 35; //THIS PIN CAN BE USED FOR OTHERS
 
 void setup() {
   pinMode(rm, OUTPUT);
