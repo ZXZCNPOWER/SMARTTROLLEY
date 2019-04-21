@@ -34,21 +34,21 @@ String state = "";
 
 
 //黄线长度160cm，小车98cm seting up ultra sesnor
-const int pingPin10 = 32; // Trigger Pin of Ultrasonic Sensor 最右边
-const int echoPin11 = 33; // Echo Pin of Ultrasonic Sensor
-const int pingPin20 = 30; // Trigger Pin of Ultrasonic Sensor中间
-const int echoPin21 = 31; // Echo Pin of Ultrasonic Sensor
-const int pingPin3 = 24; // Trigger Pin of Ultrasonic Sensor中间
-const int echoPin3 = 22; // Echo Pin of Ultrasonic Sensor
-const int pingPin4 = 25; // Trigger Pin of Ultrasonic Sensor中间
-const int echoPin4 = 26; // Echo Pin of Ultrasonic Sensor
-const int pingPin5 = 27; // Trigger Pin of Ultrasonic Sensor中间
-const int echoPin5 = 28; // Echo Pin of Ultrasonic Sensor
+const int pingPin10 = 53; // Trigger Pin of Ultrasonic Sensor 最右边
+const int echoPin11 = 52; // Echo Pin of Ultrasonic Sensor
+const int pingPin20 = 51; // Trigger Pin of Ultrasonic Sensor中间
+const int echoPin21 = 50; // Echo Pin of Ultrasonic Sensor
+const int pingPin3 = 49; // Trigger Pin of Ultrasonic Sensor中间
+const int echoPin3 = 48; // Echo Pin of Ultrasonic Sensor
+const int pingPin4 = 47; // Trigger Pin of Ultrasonic Sensor中间
+const int echoPin4 = 46; // Echo Pin of Ultrasonic Sensor
+const int pingPin5 = 45; // Trigger Pin of Ultrasonic Sensor中间
+const int echoPin5 = 44; // Echo Pin of Ultrasonic Sensor
 
 //Ledpins to detect collision place
-int LEDPin1 = 51;
-int LEDPin2 = 52;
-int LEDPin3 = 53;
+int LEDPin1 = 31;
+int LEDPin2 = 33;
+int LEDPin3 = 35;
 
 void setup() {
   pinMode(rm, OUTPUT);
