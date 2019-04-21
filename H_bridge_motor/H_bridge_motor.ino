@@ -10,6 +10,11 @@ int in2 = 7;
  
 int initial = 0;
 
+int State1 = LOW;
+int State2 = LOW;
+
+int button1 = 11; //button control first
+int button2 = 12;
 
 void setup()
 {
@@ -29,17 +34,19 @@ void setup()
   pinMode(enA, OUTPUT);
   pinMode(in1, OUTPUT);
   pinMode(in2, OUTPUT);
+
+  pinMode(button1, INPUT);
+  pinMode(button2, INPUT);
+
 }
 
 
  
-void loop()
+void UPMOVE()
  
 {
   int dist = 0;
-
-
-  lasersensor();
+  GY();
   
   if (dist < 100 ){   //being blocked
 
@@ -63,14 +70,37 @@ void loop()
      delay(100);
     }
    
-  if ( i > 500 ) {   //I DNT KNOW HOW TO MAKE THIS STOP ....HELP (CAN ADD BUZZER ON)
+  if ( initial > 500 ) {   //I DNT KNOW HOW TO MAKE THIS STOP ....HELP (CAN ADD BUZZER ON)
     digitalWrite(in1,LOW);
     digitalWrite(in2,LOW); 
     delay(5000);
 
     
   }
+  }
 
 
  
+}
+
+void DOWNMOVE(){
+  digitalWrite(in1,LOW);
+  digitalWrite(in2,HIGH);
+}
+void loop(){
+  State1 = digitalRead(button1);
+  State2 = digitalRead(button2);
+  
+  if ( State1 == HIGH && State2 == LOW){
+    UPMOVE();
+  }else if (State2 == HIGH && State1 == LOW){
+    DOWNMOVE();
+  }else{
+    digitalWrite(in1,LOW);
+    digitalWrite(in2,LOW);
+  }
+  
+
+
+
 }
