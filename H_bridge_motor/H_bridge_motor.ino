@@ -7,14 +7,23 @@ VL53L0X sensor;
 int enA = 9;
 int in1 = 8;
 int in2 = 7;
- 
-int initial = 0;
 
-int State1 = LOW;
-int State2 = LOW;
+int relay1=2; //relay pins for drill 1 and 2 is together, 3 and 4 together
+int relay2=3;
+int relay3=4;
+int relay4=5;
 
-int button1 = 11; //button control first
-int button2 = 12;
+//int upbut=6;
+//int downbut=7;
+//int upbutswitch=0;
+//int downswitch=0; 
+//int initial = 0;
+
+//int State1 = LOW;
+//int State2 = LOW;
+
+//int button1 = 11; //button control first
+//int button2 = 12;
 
 void setup()
 {
@@ -37,70 +46,41 @@ void setup()
 
   pinMode(button1, INPUT);
   pinMode(button2, INPUT);
-
-}
-
-
  
-void UPMOVE()
- 
-{
-  int dist = 0;
-  GY();
-  
-  if (dist < 100 ){   //being blocked
-
-    initial = initial + 1; //如果最开始就已经比车高了， 那stage就是1 
-    digitalWrite(in1, HIGH); //UP 
-    digitalWrite(in2, LOW);
-    delay(100);
-
- 
-    
-  }else if (dist > 100) {
-    initial = initial; // 如果最开始没有车高，那么stage就是0
-    if (initial == 0 ) {
-      digitalWrite(in1, HIGH);
-      digitalWrite(in1, LOW);
-      delay(100);
-    }else{
-
-     digitalWrite(in1, LOW); //说明已经经过了车后保险杠， 再遇到空就停下了
-     digitalWrite(in2, LOW);
-     delay(100);
-    }
-   
-  if ( initial > 500 ) {   //I DNT KNOW HOW TO MAKE THIS STOP ....HELP (CAN ADD BUZZER ON)
-    digitalWrite(in1,LOW);
-    digitalWrite(in2,LOW); 
-    delay(5000);
-
-    
-  }
-  }
+  pinMode(relay1,OUTPUT); //relay setup, HIGH=OFF, LOW=ON
+  pinMode(relay2,OUTPUT);
+  pinMode(relay3,OUTPUT);
+  pinMode(relay4,OUTPUT);
+  digitalWrite(relay1,HIGH); 
+  digitalWrite(relay2,HIGH); 
+  digitalWrite(relay3,HIGH); 
+  digitalWrite(relay4,HIGH); 
 
 
- 
-}
-
-void DOWNMOVE(){
-  digitalWrite(in1,LOW);
-  digitalWrite(in2,HIGH);
-}
 void loop(){
-  State1 = digitalRead(button1);
-  State2 = digitalRead(button2);
-  
-  if ( State1 == HIGH && State2 == LOW){
-    UPMOVE();
-  }else if (State2 == HIGH && State1 == LOW){
-    DOWNMOVE();
-  }else{
-    digitalWrite(in1,LOW);
-    digitalWrite(in2,LOW);
   }
   
 
 
 
+}
+void up() {
+  digitalWrite(relay2,LOW);
+  delay(50);
+  digitalWrite(relay1,LOW);
+}
+
+void down(){ 
+  digitalWrite(relay3,LOW); 
+  delay(50); 
+  digitalWrite(relay4,LOW); 
+} 
+void off(){ 
+  digitalWrite(relay2,HIGH); 
+  delay(50); 
+  digitalWrite(relay1,HIGH); 
+  delay(50); 
+  digitalWrite(relay3,HIGH); 
+  delay(50); 
+  digitalWrite(relay4,HIGH); 
 }
