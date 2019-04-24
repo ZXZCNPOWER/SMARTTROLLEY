@@ -10,6 +10,7 @@ void readColSensor(){
   int cmR = 0 ;
   int cma = 0;
   int cmb = 0;
+  int cm = 0;
   int moveAllowed;
 
    long duration, inches, cm;
@@ -33,7 +34,9 @@ void readColSensor(){
    pinMode(echoPin21, INPUT);
    duration = pulseIn(echoPin21, HIGH);
    cmR = microsecondsToCentimeters(duration);
-   delay(50);
+   delay(100);
+
+
 
    pinMode(pingPin3, OUTPUT);
    digitalWrite(pingPin3, LOW);
@@ -44,8 +47,9 @@ void readColSensor(){
    pinMode(echoPin3, INPUT);
    duration = pulseIn(echoPin3, HIGH);
    cm = microsecondsToCentimeters(duration);
-   delay(50);
-  
+   delay(100);
+
+
    pinMode(pingPin4, OUTPUT);
    digitalWrite(pingPin4, LOW);
    delayMicroseconds(2);
@@ -55,8 +59,8 @@ void readColSensor(){
    pinMode(echoPin4, INPUT);
    duration = pulseIn(echoPin4, HIGH);
    cma = microsecondsToCentimeters(duration);
-   delay(50);
-  
+   delay(200);
+
    pinMode(pingPin5, OUTPUT);
    digitalWrite(pingPin5, LOW);
    delayMicroseconds(2);
@@ -66,32 +70,33 @@ void readColSensor(){
    pinMode(echoPin5, INPUT);
    duration = pulseIn(echoPin5, HIGH);
    cmb = microsecondsToCentimeters(duration);
-   delay(50);
+   delay(200);
+  
+   Serial.println(cmL);
+   Serial.println(cmR);
+   Serial.println(cm1);
+   Serial.println(cm2);
+   Serial.println(cm3);
+
 
    if ((20 <cmL && cmL < 300) || (20 <cmR && cmR< 300) || (20<cm && cm < 300) || (20<cma && cma < 300) || (20<cmb && cmb < 300)){
 
     digitalWrite(LEDPin1, LOW);
     digitalWrite(LEDPin2, HIGH);
-
     moveAllowed = 0; //stop
+    Serial.println(moveAllowed);
+    Serial.println("move not allowed");
    }else{
 
     digitalWrite(LEDPin1, HIGH);
     digitalWrite(LEDPin2, LOW);
     moveAllowed = 1 ;// moving
+    Serial.println(moveAllowed);
+    Serial.println("move not allowed");
    }
    delay(10);
    
-   Serial.println(cmL);
-   Serial.print("CML");
-   Serial.println( cmR);
-   Serial.print("cmR");
-   Serial.println( cma);
-   Serial.print("cma");
-   Serial.println( cmb);
-   Serial.print("cmb");
-   Serial.println(moveAllowed);
-   Serial.print("moveAllowed");
+
 }
 
 long microsecondsToInches(long microseconds) {
