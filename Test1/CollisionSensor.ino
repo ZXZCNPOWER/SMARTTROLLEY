@@ -10,7 +10,6 @@ void readColSensor(){
   int cmR = 0 ;
   int cma = 0;
   int cmb = 0;
-  int cm = 0;
   int moveAllowed;
 
    long duration, inches, cm;
@@ -74,9 +73,9 @@ void readColSensor(){
   
    Serial.println(cmL);
    Serial.println(cmR);
-   Serial.println(cm1);
-   Serial.println(cm2);
-   Serial.println(cm3);
+   Serial.println(cm);
+   Serial.println(cma);
+   Serial.println(cmb);
 
 
    if ((20 <cmL && cmL < 300) || (20 <cmR && cmR< 300) || (20<cm && cm < 300) || (20<cma && cma < 300) || (20<cmb && cmb < 300)){
