@@ -10,7 +10,7 @@ void readColSensor(){
   int cmR = 0 ;
   int cma = 0;
   int cmb = 0;
-  int op;
+  int moveAllowed;
 
    long duration, inches, cm;
    pinMode(pingPin10, OUTPUT);
@@ -73,15 +73,25 @@ void readColSensor(){
     digitalWrite(LEDPin1, LOW);
     digitalWrite(LEDPin2, HIGH);
 
-    op = 0; //stop
+    moveAllowed = 0; //stop
    }else{
 
     digitalWrite(LEDPin1, HIGH);
     digitalWrite(LEDPin2, LOW);
-    op = 1 ;// moving
+    moveAllowed = 1 ;// moving
    }
    delay(10);
    
+   Serial.println(cmL);
+   Serial.print("CML");
+   Serial.println( cmR);
+   Serial.print("cmR");
+   Serial.println( cma);
+   Serial.print("cma");
+   Serial.println( cmb);
+   Serial.print("cmb");
+   Serial.println(moveAllowed);
+   Serial.print("moveAllowed");
 }
 
 long microsecondsToInches(long microseconds) {

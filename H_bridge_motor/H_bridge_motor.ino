@@ -4,18 +4,18 @@
 
 VL53L0X sensor;
 
-
 int relay1=2;
 int relay2=3;
 int relay3=4;
 int relay4=5;
 int upbut=6;
 int downbut=7;
-int upbutswitch=0;
-int downswitch=0;
 int limitswitchpin = 8;//limit switch pin
 int dist = 0;
 
+// unused variables
+int upbutswitch=0;
+int downswitch=0;
 
 unsigned long startMillis;  //some global variables available anywhere in the program
 unsigned long currentMillis;
@@ -50,7 +50,6 @@ void setup() {
 
 void loop() {
 
-
   if (state==1){
     LASERSENSOR();
     if (i==0){
@@ -69,14 +68,13 @@ void loop() {
       else if (commandjack==2){
         down();
       }
-        
     }
 
     else {     //i is other number
       currentMillis=millis();
       if (currentMillis - startMillis>5000){
       state=0;
-      i=0;
+      i=0;  
       startMillis=0;
       }
       else if (commandjack=1){
