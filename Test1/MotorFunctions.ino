@@ -1,100 +1,120 @@
-void autoMotor(){ //this function includes controlling the motor by buttons.
+
+void automotor() {
   
-  char command = Serial.read(); // Reads any input char from BlueTooth or RPI
-
-  if ( command ==  'a' || command ==  'b' || command ==  'c' || command ==  'd' || command ==  'e' || command ==  'f' ) { //this shows if the command is sent by rpi 
-    Serial.println("read from rpi");
-    if ( command == 'f' ){ // Move forward
-     
-      analogWrite(rm,maxi);
-      analogWrite(lm,maxi);
-      Serial.println("fwd");
-//       if (i==1){
-//         analogWrite(lm,180); // THE VALUE HERE IS ACCORDING TO THE WEIGHT 
-//         analogWrite(rm,160);
-//         delay(600);
-//         i=i+1;
-//         analogWrite(lm,0);
-//         analogWrite(rm,0);
-//       } else {
-//         Serial.println(i);
-//         analogWrite(lm,150);
-//         analogWrite(rm,230);
-//         delay(105);
-//         analogWrite(lm,0);
-//         analogWrite(rm,0);//once it runs, dnt need full speed alr
-//         delay(115);
+  Serial.println(ave[0]);
+  if(Serial.available() > 0){ // Checks whether data is comming from the serial port
+    ave[0] = Serial.read(); // Reads the data from the serial port
+    //Serial.println(state);
+    if (ave[0] == 122 || ave[0] == 121) //open CV start or stop z, 122 is start y,121 is stop 
+    {
+      if (ave[0] == 122)
+      {
+        openCV = true;
+      }
+      else if (ave[0] == 121)
+      {
+        openCV = false;
+      }
     }
-    else if ( command == 'c' || command == 'd'){ // Move Left
-      analogWrite(lm,off);
-      analogWrite(rm,255);
-      Serial.println("left");
-    }
-    else if (command == 'a' || command == 'b'){ //Move right
-      analogWrite(lm,maxi);
-      analogWrite(rm,255);
-      Serial.println("right");  
-    }
-    else{
-      analogWrite(lm,off);
-      analogWrite(rm,off);
-      Serial.println("off");
-    }
-    Serial.println(command);
-    //delay(500);
+    delay(5);
+  }
+    if (ave[0] == 79 && openCV == false){              //incase of 'O' Stop , 79 ASCII
+      
+    digitalWrite(rm,HIGH);//RM off
+    digitalWrite(lm,HIGH); //LM off
+    digitalWrite(R_brake,LOW);//Right Brake on
+    digitalWrite(L_brake,LOW);//Left Brake on
     
-  }else if (isDigit(command)){ //this is if the value is from bluetooth ,which is a integer
-     
-     Serial.println("reading from bluetooth");   
-
-    x = Serial.read();
-    delay(10);
-    y = Serial.read();
-     //Serial.print("X: ");
-     Serial.print(x);
-     //Serial.print("| Y: ");
-     Serial.print(y);
-     Serial.println( );
-     if (y<120){
-       
-       analogWrite(lm,150);
-       analogWrite(rm,150);
-       
-//       if (i==1){
-//         analogWrite(lm,180); // THE VALUE HERE IS ACCORDING TO THE WEIGHT 
-//         analogWrite(rm,160);
-//         delay(600);
-//         i=i+1;
-//         analogWrite(lm,0);
-//         analogWrite(rm,0);
-//       } else {
-//         Serial.println(i);
-//         analogWrite(lm,150);
-//         analogWrite(rm,230);
-//         delay(105);
-//         analogWrite(lm,0);
-//         analogWrite(rm,0);//once it runs, dnt need full speed alr
-//         delay(115);
-//      }
-     }else if ( x<120){ 
-      analogWrite(lm,off);
-      analogWrite(rm,255);
-     //Serial.print("Left");
-     //Serial.println( );
-     }
-     else if ( x> 160){
-      analogWrite(lm,255);
-      analogWrite(rm,off);
-     //Serial.print("Right");
-     //Serial.println( );
-     }
-     else{
-      analogWrite(lm,off); 
-      analogWrite(rm,off); 
+    //Serial.println("off");
     }
+
+    else if (ave[0] == 111 && openCV == true){              //incase of 'O' Stop , 79 ASCII
+      
+    digitalWrite(rm,HIGH);//RM off
+    digitalWrite(lm,HIGH); //LM off
+    digitalWrite(R_brake,LOW);//Right Brake on
+    digitalWrite(L_brake,LOW);//Left Brake on
+    
+    //Serial.println("off");
+    }
+
+     else if(ave[0] == 70 &&  openCV == false){   //incase of 'F' Forward, 70 ASCII
+      Forward();
+      //Serial.println("Fwd");
+      }
+
+     else if(ave[0] == 102 && openCV == true){   //incase of 'f' Forward, 102 ASCII
+      Forward();
+      //Serial.println("Fwd");
+      }
+
+       else if(ave[0] == 76 && openCV == false){   //incase of 'L' turn Left, 76 ASCII
+        Left();
+    
+      //Serial.println("Left");
+       }
+          else if(ave[0] == 108 && openCV == true){   //incase of 'l' turn Left, 108 ASCII
+        Left();    
+      //Serial.println("Left");
+       }
+       
+      else if(ave[0] == 82 && openCV == false){   //incase of 'R' turn Right ,114 ASCII
+      Right();
+     // Serial.println("Right");
+       }
+
+      else if(ave[0] == 114 && openCV == true){   //incase of 'r' turn Right ,114 ASCII
+      Right();
+    
+     // Serial.println("Right");
+       }
+    }
+
+void Forward()
+{
+      Serial.println("Fwd");
+      digitalWrite(rm,LOW);//RM on
+      digitalWrite(lm,LOW);//LM on
+      digitalWrite(R_brake,HIGH);// Left Brake off
+      digitalWrite(L_brake,HIGH);//Right Brake off
+      delay(500);
+      
+      digitalWrite(rm,HIGH);//RM off
+      digitalWrite(lm,HIGH);// LM off 
+      digitalWrite(R_brake,HIGH);//Right Brake off
+      digitalWrite(L_brake,HIGH);//Left Brake off
+      delay(500);
+}
+
+void Left()
+{
+          Serial.println("Left");
+          digitalWrite(rm,LOW);//RM on
+          digitalWrite(lm,HIGH);//LM off
+          digitalWrite(R_brake,HIGH);//Right Brake off
+          digitalWrite(L_brake,LOW);//Left Brake on
+          delay(500);
+      
+          digitalWrite(rm,HIGH);//RM off
+          digitalWrite(lm,HIGH);//LM off
+          digitalWrite(R_brake,HIGH);//Right Brake Off
+          digitalWrite(L_brake,LOW);//Left Brake on
+          delay(500);
+}
+
+void Right()
+{
+      Serial.println("Right");
+      digitalWrite(rm,HIGH);//RM off
+      digitalWrite(lm,LOW); //LM on
+      digitalWrite(R_brake,LOW); //Right Brake On
+      digitalWrite(L_brake,HIGH);//Left Brake Off
+      delay(500);
   
-    
-  }
-  }
-
-
+      digitalWrite(rm,HIGH);//RM off
+      digitalWrite(lm,HIGH);//LM off
+      digitalWrite(R_brake,LOW);//Right Brake on
+      digitalWrite(L_brake,HIGH);//Left Brake off
+      
+      delay(500);
+}

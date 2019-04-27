@@ -2,14 +2,10 @@
 Group Members
 Ave, James, Xue Zhi , Ming Yew , Chris Yi An , Zhen Yong
 
-The arduino will read commands from RPI / Blue tooth and act accordingly. The commands are sent in single characters.
+HOW THIS CODE WORKS -- The arduino has 2 main mode , EITHER reading serial data to update states/variables in the machine OR Mechanical response according to the states or variables
+SCROLL DOWN AND READ THE specialDelay FUNCITON AND HOW TO USE IT !
 
-A0 - Forward 8
-lft - Left 12
-rght-Right 13
-PWM 3- LM //Left Motor
-PWM 5- RM //Right Motor
- */
+*/
 
 #include <Wire.h>
 
@@ -20,7 +16,7 @@ bool openCV = false;
 
 // motor variables and pins
 char junk;
-int ave[1]; //array to store byte data
+char ave; //char to store byte data
 int fwd = 12;
 int lft = 11;
 int rght = 13;
@@ -37,7 +33,7 @@ int relay3=4;
 int relay4=5;
 int upbut=6;
 int downbut=7;
-int limitswitchpin = 8;//limit switch pin
+int limitswitchpin = 7;//limit switch pin
 int dist = 0;
 unsigned long startMillis;  //some global variables available anywhere in the program
 unsigned long currentMillis;
@@ -46,6 +42,7 @@ int i=0;
 int belowcar=0;
 int commandjack=0;
 int limitswitch=0;
+int statemotor=0;
 
 
 // unused variables
@@ -73,7 +70,7 @@ const int echoPin5 = 44; // Echo Pin of Ultrasonic Sensor
 int LEDPin1 = 31;
 int LEDPin2 = 33;
 //
-int moveAllowed;
+int moveAllowed = 1;
 
 int LEDPin3 = 35; //THIS PIN CAN BE USED FOR OTHERS
 
@@ -112,22 +109,74 @@ void setup() {
 
 
   Serial.begin(9600);
-  Serial.begin(38400); //this is for bluetooth
+  //Serial.begin(38400); //this is for bluetooth
 }
   
 void loop() {
-  readColSensor();
-  leveljack();      
-  if(Serial.available()){ // check if there is any incoming data from the RPI / Blue tooth
-      delay(20);
-      
-      if (moveAllowed == 1){  //sensor part should have 2 led on 
-        automotor();
-      }else if (moveAllowed == 0){
-        analogWrite(rm,0);
-        analogWrite(lm,0);
-        Serial.println("stopp");
-        
-        }
-      }
+  if (Serial.available()>0) // to check incoming data, and update state accordingly !!
+    ave = Serial.read();
+    Serial.println(ave);
+    // char U, D ,p is used for levelling jack.
+    // char F,f,L,l,R,r,O,o for motor movement. O o is stop commands. Small letters are from bytes from openCV
+    // char z,y is to indicate openCV running or not
+    switch(ave){
+      case 'z':
+        openCV = true;
+        break;
+      case 'p':
+        openCV = false;
+        break;
+      case 'F': // move forward
+        statemotor = 1;
+        break;
+      case 'f': // move forward
+        statemotor = 1;
+        break;
+      case 'L': //move left
+        statemotor = 2;
+        break;
+      case 'l': //move left
+        statemotor =2;
+        break;
+      case 'R': //move right
+        statemotor=3;
+        break;
+      case 'r': // move right
+        statemotor=3;
+        break;
+      case 'O': //stop moving
+        statemotor = 0;
+        break;
+      case 'o': // stop moving
+        statemotor = 0;
+        break;
+      case 'U': // level jack up
+        state = 1;
+        commandjack=1; // go up 
+        Serial.println("UP");
+        break;
+      case 'D': // level jack down
+        state = 1; // Go Down
+        Serial.println("DOWN");
+        commandjack = 2;
+        break;
+      case 'y': // holy shiet stop the jack!
+        state = 0; // Go Down
+        Serial.println("HOLY SHIT STOP THE JACK");
+        break;
+    }
+
+    leveljack();
+    //readColSensor();
+    automotor();
+
+    //while
+}
+
+void specialDelay( int x ){ // put in the amount of delay you want in microseconds and it would delayed by that valued * 10!!
+  for ( int i = 0 ; i < x ;i ++)
+  {
+    delay (10);
+    if (Serial.available()>0){break;}
+  }
 }

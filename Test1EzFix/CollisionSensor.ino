@@ -21,7 +21,6 @@ void readColSensor(){
    pinMode(echoPin11, INPUT);
    duration = pulseIn(echoPin11, HIGH);
    cmL = microsecondsToCentimeters(duration);
-   delay(50);
 
    pinMode(pingPin20, OUTPUT);
    digitalWrite(pingPin20, LOW);
@@ -32,7 +31,7 @@ void readColSensor(){
    pinMode(echoPin21, INPUT);
    duration = pulseIn(echoPin21, HIGH);
    cmR = microsecondsToCentimeters(duration);
-   delay(100);
+   
 
 
 
@@ -45,7 +44,7 @@ void readColSensor(){
    pinMode(echoPin3, INPUT);
    duration = pulseIn(echoPin3, HIGH);
    cm = microsecondsToCentimeters(duration);
-   delay(100);
+   
 
 
    pinMode(pingPin4, OUTPUT);
@@ -57,7 +56,7 @@ void readColSensor(){
    pinMode(echoPin4, INPUT);
    duration = pulseIn(echoPin4, HIGH);
    cma = microsecondsToCentimeters(duration);
-   delay(200);
+
 
    pinMode(pingPin5, OUTPUT);
    digitalWrite(pingPin5, LOW);
@@ -68,7 +67,7 @@ void readColSensor(){
    pinMode(echoPin5, INPUT);
    duration = pulseIn(echoPin5, HIGH);
    cmb = microsecondsToCentimeters(duration);
-   delay(200);
+
   
    Serial.println(cmL);
    Serial.println(cmR);
@@ -81,18 +80,18 @@ void readColSensor(){
 
     digitalWrite(LEDPin1, LOW);
     digitalWrite(LEDPin2, HIGH);
-    moveAllowed = 0; //stop
+    moveAllowed = 1; //stop
     Serial.println(moveAllowed);
-    Serial.println("move not allowed");
+    //Serial.println("move not allowed");
    }else{
 
     digitalWrite(LEDPin1, HIGH);
     digitalWrite(LEDPin2, LOW);
     moveAllowed = 1 ;// moving
     Serial.println(moveAllowed);
-    Serial.println("move not allowed");
+    Serial.println("move allowed");
    }
-   delay(10);
+   
    
 
 }
